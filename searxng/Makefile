@@ -13,7 +13,7 @@ run:
 		searxng
 
 stop:
-	docker stop $$(docker ps | grep searx | cut -d' ' -f1)
+	docker stop $$(docker ps | grep searxng | cut -d' ' -f1)
 
 sh:
-	docker exec -it $$(docker ps | grep searx | cut -d' ' -f1) sh
+	docker exec -it $$(docker ps | grep searxng | cut -d' ' -f1) sh
