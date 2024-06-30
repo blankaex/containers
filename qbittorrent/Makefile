@@ -16,5 +16,8 @@ run:
 stop:
 	docker stop $$(docker ps | grep qbittorrent | cut -d' ' -f1)
 
+restart:
+	docker restart $$(docker ps | grep qbittorrent | cut -d' ' -f1)
+
 sh:
 	docker exec -it $$(docker ps | grep qbittorrent | cut -d' ' -f1) sh
