@@ -21,3 +21,6 @@ restart:
 
 sh:
 	docker exec -it $$(docker ps | grep qbittorrent | cut -d' ' -f1) sh
+
+check:
+	docker exec $$(docker ps | grep qbittorrent | cut -d' ' -f1) ls /home/blankaex/anime
