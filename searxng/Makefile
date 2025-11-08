@@ -9,14 +9,15 @@ run:
 		--env "BASE_URL=${SEARXNG_URL}" \
 		--env "INSTANCE_NAME=searxng" \
 		--restart unless-stopped \
+		--name searxng \
 		--detach \
 		searxng
 
 stop:
-	docker stop $$(docker ps | grep searxng | cut -d' ' -f1)
+	docker stop searxng
 
 restart:
-	docker restart $$(docker ps | grep searxng | cut -d' ' -f1)
+	docker restart searxng
 
 sh:
-	docker exec -it $$(docker ps | grep searxng | cut -d' ' -f1) sh
+	docker exec -it searxng sh

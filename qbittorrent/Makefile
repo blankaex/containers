@@ -10,17 +10,18 @@ run:
 		--volume /home/blankaex/storage/torrents:/home/blankaex/storage/torrents \
 		--volume /home/blankaex/anime:/home/blankaex/anime \
 		--restart unless-stopped \
+		--name qbittorrent \
 		--detach \
 		qbittorrent
 
 stop:
-	docker stop $$(docker ps | grep qbittorrent | cut -d' ' -f1)
+	docker stop qbittorrent
 
 restart:
-	docker restart $$(docker ps | grep qbittorrent | cut -d' ' -f1)
+	docker restart qbittorrent
 
 sh:
-	docker exec -it $$(docker ps | grep qbittorrent | cut -d' ' -f1) sh
+	docker exec -it qbittorrent sh
 
 check:
-	docker exec $$(docker ps | grep qbittorrent | cut -d' ' -f1) ls /home/blankaex/anime
+	docker exec qbittorrent ls /home/blankaex/anime

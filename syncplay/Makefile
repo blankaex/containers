@@ -10,14 +10,15 @@ run:
 		--publish ${SYNCPLAY_PORT}:${SYNCPLAY_PORT} \
 		--volume /etc/letsencrypt/:/etc/letsencrypt/:ro \
 		--restart unless-stopped \
+		--name syncplay \
 		--detach \
 		syncplay
 
 stop:
-	docker stop $$(docker ps | grep syncplay | cut -d' ' -f1)
+	docker stop syncplay
 
 restart:
-	docker restart $$(docker ps | grep syncplay | cut -d' ' -f1)
+	docker restart syncplay
 
 sh:
-	docker exec -it $$(docker ps | grep syncplay | cut -d' ' -f1) sh
+	docker exec -it syncplay sh
