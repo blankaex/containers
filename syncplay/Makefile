@@ -12,6 +12,7 @@ run:
 		--restart unless-stopped \
 		--name syncplay \
 		--detach \
+		--rm \
 		syncplay
 
 stop:

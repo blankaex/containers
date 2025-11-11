@@ -11,6 +11,7 @@ run:
 		--restart unless-stopped \
 		--name searxng \
 		--detach \
+		--rm \
 		searxng
 
 stop:

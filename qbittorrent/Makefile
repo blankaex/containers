@@ -12,6 +12,7 @@ run:
 		--restart unless-stopped \
 		--name qbittorrent \
 		--detach \
+		--rm \
 		qbittorrent
 
 stop:
