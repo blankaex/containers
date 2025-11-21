@@ -19,10 +19,10 @@ run-database:
 		--env POSTGRES_USER=${SZURUBOORU_USER} \
 		--env POSTGRES_PASSWORD=${SZURUBOORU_PASS} \
 		--volume /var/local/szurubooru/sql:/var/lib/postgresql/data \
+		--restart unless-stopped \
 		--network=szurubooru \
 		--name szurubooru-database \
 		--detach \
-		--rm \
 		postgres:11-alpine
 
 run-server:
@@ -33,22 +33,22 @@ run-server:
 		--env THREADS=4 \
 	    --volume /var/local/szurubooru/data:/data \
 	    --volume ${PWD}/szurubooru/server/config.yaml:/opt/app/config.yaml \
+		--restart unless-stopped \
 		--network=szurubooru \
 		--name szurubooru-server \
 		--detach \
-		--rm \
 		szurubooru-server
 
 run-client:
 	docker run \
 		--env BACKEND_HOST=szurubooru-server \
 		--env BASE_URL=/ \
-		--volume /var/local/szurubooru/data:/data:ro \
 		--publish ${SZURUBOORU_PORT}:80 \
+		--volume /var/local/szurubooru/data:/data:ro \
+		--restart unless-stopped \
 		--network=szurubooru \
 		--name szurubooru-client \
 		--detach \
-		--rm \
 		szurubooru-client
 
 stop-database:
