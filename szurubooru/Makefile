@@ -20,7 +20,7 @@ run-database:
 		--env POSTGRES_PASSWORD=${SZURUBOORU_PASS} \
 		--volume /var/local/szurubooru/sql:/var/lib/postgresql/data \
 		--restart unless-stopped \
-		--network=szurubooru \
+		--network szurubooru \
 		--name szurubooru-database \
 		--detach \
 		postgres:11-alpine
@@ -34,7 +34,7 @@ run-server:
 	    --volume /var/local/szurubooru/data:/data \
 	    --volume ${PWD}/szurubooru/server/config.yaml:/opt/app/config.yaml \
 		--restart unless-stopped \
-		--network=szurubooru \
+		--network szurubooru \
 		--name szurubooru-server \
 		--detach \
 		szurubooru-server
@@ -46,7 +46,7 @@ run-client:
 		--publish ${SZURUBOORU_PORT}:80 \
 		--volume /var/local/szurubooru/data:/data:ro \
 		--restart unless-stopped \
-		--network=szurubooru \
+		--network szurubooru \
 		--name szurubooru-client \
 		--detach \
 		szurubooru-client
