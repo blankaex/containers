@@ -1,18 +1,8 @@
-build: build-server build-client
-
 run: run-database run-server run-client
 
 stop: stop-database stop-server stop-client
 
 restart: restart-database restart-server restart-client
-
-build-server:
-	docker pull szurubooru/server && \
-		docker tag szurubooru/server szurubooru-server
-
-build-client:
-	docker pull szurubooru/client && \
-		docker tag szurubooru/client szurubooru-client
 
 run-database:
 	docker run \
@@ -37,7 +27,7 @@ run-server:
 		--network szurubooru \
 		--name szurubooru-server \
 		--detach \
-		szurubooru-server
+		szurubooru/server
 
 run-client:
 	docker run \
@@ -49,7 +39,7 @@ run-client:
 		--network szurubooru \
 		--name szurubooru-client \
 		--detach \
-		szurubooru-client
+		szurubooru/client
 
 stop-database:
 	docker stop szurubooru-database
@@ -68,3 +58,6 @@ restart-server:
 
 restart-client:
 	docker restart szurubooru-client
+
+clean:
+	docker container prune -f
