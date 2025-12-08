@@ -1,7 +1,7 @@
 run: 
 	docker run \
 		--publish ${STATPING_PORT}:8080 \
-		--volume /home/blankaex/containers/statping/statping:/app \
+		--volume ${PWD}/statping:/app \
 		--name statping \
 		--restart unless-stopped \
 		--detach \
