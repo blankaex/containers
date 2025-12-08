@@ -6,7 +6,7 @@ build: Dockerfile
 run:
 	docker run \
 		--publish ${QBITTORRENT_PORT}:${QBITTORRENT_PORT} \
-		--volume /home/blankaex/.config/qBittorrent:/home/blankaex/.config/qBittorrent \
+		--volume ${PWD}/qBittorrent:/home/blankaex/.config/qBittorrent \
 		--volume /home/blankaex/storage/torrents:/home/blankaex/storage/torrents \
 		--volume /home/blankaex/anime:/home/blankaex/anime \
 		--restart unless-stopped \
