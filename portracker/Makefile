@@ -1,7 +1,7 @@
 run:
 	docker run \
 		--publish ${PORTRACKER_PORT}:4999 \
-		--volume /var/local/portracker/data:/data \
+		--volume ${PWD}/portracker/data:/data \
 		--volume /var/run/docker.sock:/var/run/docker.sock:ro \
 		--pid host \
 		--cap-add SYS_PTRACE \
@@ -18,3 +18,6 @@ stop:
 
 restart:
 	docker restart portracker
+
+clean:
+	docker container prune -f

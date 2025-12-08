@@ -12,3 +12,9 @@ stop:
 
 restart:
 	docker restart statping
+
+sh:
+	docker exec -it statping sh
+
+clean:
+	docker container prune -f

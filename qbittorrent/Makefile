@@ -23,5 +23,8 @@ restart:
 sh:
 	docker exec -it qbittorrent sh
 
+clean:
+	docker container prune -f
+
 check:
 	docker exec qbittorrent ls /home/blankaex/anime

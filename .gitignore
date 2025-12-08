@@ -1,5 +1,8 @@
-miniserve/miniserve/
-searxng/searxng/
-statping/statping/
-szurubooru/szurubooru/
-statping/statping/
+miniserve/miniserve
+portracker/portracker
+searxng/searxng
+statping/statping
+szurubooru/szurubooru
+szurubooru/data
+szurubooru/sql
+statping/statping

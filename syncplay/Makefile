@@ -22,3 +22,6 @@ restart:
 
 sh:
 	docker exec -it syncplay sh
+
+clean:
+	docker container prune -f

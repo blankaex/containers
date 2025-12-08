@@ -8,7 +8,7 @@ run-database:
 	docker run \
 		--env POSTGRES_USER=${SZURUBOORU_USER} \
 		--env POSTGRES_PASSWORD=${SZURUBOORU_PASS} \
-		--volume /var/local/szurubooru/sql:/var/lib/postgresql/data \
+		--volume ${PWD}/sql:/var/lib/postgresql/data \
 		--restart unless-stopped \
 		--network szurubooru \
 		--name szurubooru-database \
@@ -21,7 +21,7 @@ run-server:
 		--env POSTGRES_USER=${SZURUBOORU_USER} \
 		--env POSTGRES_PASSWORD=${SZURUBOORU_PASS} \
 		--env THREADS=4 \
-	    --volume /var/local/szurubooru/data:/data \
+	    --volume ${PWD}/data:/data \
 	    --volume ${PWD}/szurubooru/server/config.yaml:/opt/app/config.yaml \
 		--restart unless-stopped \
 		--network szurubooru \
@@ -34,7 +34,7 @@ run-client:
 		--env BACKEND_HOST=szurubooru-server \
 		--env BASE_URL=/ \
 		--publish ${SZURUBOORU_PORT}:80 \
-		--volume /var/local/szurubooru/data:/data:ro \
+		--volume ${PWD}/data:/data:ro \
 		--restart unless-stopped \
 		--network szurubooru \
 		--name szurubooru-client \

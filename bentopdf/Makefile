@@ -14,3 +14,6 @@ restart:
 
 sh:
 	docker exec -it bentopdf sh
+
+clean:
+	docker container prune -f
