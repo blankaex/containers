@@ -1,5 +1,6 @@
 build: Dockerfile
-	docker build \ --build-arg MINISERVE_PORT=${MINISERVE_PORT} \
+	docker build \
+		--build-arg MINISERVE_PORT=${MINISERVE_PORT} \
 		--tag miniserve .
 
 run:
