@@ -18,7 +18,7 @@ RUN git clone https://github.com/Syncplay/syncplay.git syncplay
 
 WORKDIR syncplay
 
-COPY motd motd
+COPY syncplay/motd motd
 
 RUN make install-server VLC_SUPPORT=false
 
