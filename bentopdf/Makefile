@@ -4,7 +4,7 @@ run:
 		--restart unless-stopped \
 		--name bentopdf \
 		--detach \
-		bentopdf/bentopdf:latest
+		bentopdfteam/bentopdf:latest
 
 stop:
 	docker stop bentopdf 
@@ -17,3 +17,8 @@ sh:
 
 clean:
 	docker container prune -f
+
+pull:
+	docker pull bentopdfteam/bentopdf:latest
+
+upgrade: pull stop clean run
