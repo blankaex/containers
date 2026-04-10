@@ -1,7 +1,3 @@
-build:
-	docker pull searxng/searxng && \
-		docker tag searxng/searxng searxng
-
 run:
 	docker run \
 		--publish ${SEARXNG_PORT}:8080 \
@@ -11,7 +7,7 @@ run:
 		--restart unless-stopped \
 		--name searxng \
 		--detach \
-		searxng
+		searxng/searxng
 
 stop:
 	docker stop searxng
@@ -24,3 +20,8 @@ sh:
 
 clean:
 	docker container prune -f
+
+pull:
+	docker pull searxng/searxng
+
+upgrade: pull stop clean run
