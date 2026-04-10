@@ -3,10 +3,17 @@ build: Dockerfile
 		--build-arg QBITTORRENT_PORT=${QBITTORRENT_PORT} \
 		--tag qbittorrent .
 
+rebuild: Dockerfile
+	docker pull archlinux
+	docker build \
+		--build-arg QBITTORRENT_PORT=${QBITTORRENT_PORT} \
+		--no-cache \
+		--tag qbittorrent .
+
 run:
 	docker run \
 		--publish ${QBITTORRENT_PORT}:${QBITTORRENT_PORT} \
-		--volume ${PWD}/qBittorrent:/home/blankaex/.config/qBittorrent \
+		--volume ${PWD}/qBittorrent:/config/qBittorrent \
 		--volume /home/blankaex/storage/torrents:/home/blankaex/storage/torrents \
 		--volume /home/blankaex/anime:/home/blankaex/anime \
 		--restart unless-stopped \
@@ -28,3 +35,5 @@ clean:
 
 check:
 	docker exec qbittorrent ls /home/blankaex/anime
+
+upgrade: rebuild stop clean run
