@@ -23,3 +23,8 @@ sh:
 
 clean:
 	docker container prune -f
+
+pull:
+	docker pull jellyfin/jellyfin
+
+upgrade: pull stop clean run

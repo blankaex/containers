@@ -24,3 +24,8 @@ sh:
 
 clean:
 	docker container prune -f
+
+pull:
+	docker pull uozi/nginx-ui:latest
+
+upgrade: pull stop clean run

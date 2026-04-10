@@ -21,3 +21,8 @@ restart:
 
 clean:
 	docker container prune -f
+
+pull:
+	docker pull mostafawahied/portracker:latest
+
+upgrade: pull stop clean run

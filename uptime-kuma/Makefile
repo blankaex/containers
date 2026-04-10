@@ -18,3 +18,8 @@ sh:
 
 clean:
 	docker container prune -f
+
+pull:
+	docker pull louislam/uptime-kuma:2
+
+upgrade: pull stop clean run

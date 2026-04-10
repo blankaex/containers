@@ -20,3 +20,8 @@ sh:
 
 clean:
 	docker container prune -f
+
+pull:
+	docker pull libretranslate/libretranslate
+
+upgrade: pull stop clean run

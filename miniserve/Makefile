@@ -3,6 +3,13 @@ build: Dockerfile
 		--build-arg MINISERVE_PORT=${MINISERVE_PORT} \
 		--tag miniserve .
 
+rebuild: Dockerfile
+	docker pull archlinux
+	docker build \
+		--build-arg MINISERVE_PORT=${MINISERVE_PORT} \
+		--no-cache \
+		--tag miniserve .
+
 run:
 	docker run \
 		--publish ${MINISERVE_PORT}:${MINISERVE_PORT} \
@@ -24,3 +31,5 @@ sh:
 
 clean:
 	docker container prune -f
+
+upgrade: rebuild stop clean run

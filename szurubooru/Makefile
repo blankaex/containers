@@ -61,3 +61,9 @@ restart-client:
 
 clean:
 	docker container prune -f
+
+pull:
+	docker pull szurubooru/server
+	docker pull szurubooru/client
+
+upgrade: pull stop clean run
