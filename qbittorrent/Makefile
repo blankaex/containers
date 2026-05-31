@@ -31,7 +31,7 @@ sh:
 	docker exec -it qbittorrent sh
 
 clean:
-	docker container prune -f
+	docker rm -f qbittorrent
 
 check:
 	docker exec qbittorrent ls /home/blankaex/anime

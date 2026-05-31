@@ -16,4 +16,4 @@ sh:
 	docker exec -it autotagger sh
 
 clean:
-	docker container prune -f
+	docker rm -f autotagger

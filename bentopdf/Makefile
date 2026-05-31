@@ -16,7 +16,7 @@ sh:
 	docker exec -it bentopdf sh
 
 clean:
-	docker container prune -f
+	docker rm -f bentopdf
 
 pull:
 	docker pull bentopdfteam/bentopdf:latest

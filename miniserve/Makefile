@@ -30,6 +30,6 @@ sh:
 	docker exec -it miniserve sh
 
 clean:
-	docker container prune -f
+	docker rm -f miniserve
 
 upgrade: rebuild stop clean run

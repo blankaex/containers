@@ -19,7 +19,7 @@ sh:
 	docker exec -it libretranslate sh
 
 clean:
-	docker container prune -f
+	docker rm -f libretranslate
 
 pull:
 	docker pull libretranslate/libretranslate

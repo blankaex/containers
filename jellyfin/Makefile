@@ -22,7 +22,7 @@ sh:
 	docker exec -it jellyfin sh
 
 clean:
-	docker container prune -f
+	docker rm -f jellyfin
 
 pull:
 	docker pull jellyfin/jellyfin

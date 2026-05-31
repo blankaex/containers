@@ -33,6 +33,6 @@ sh:
 	docker exec -it syncplay sh
 
 clean:
-	docker container prune -f
+	docker rm -f syncplay
 
 upgrade: rebuild stop clean run

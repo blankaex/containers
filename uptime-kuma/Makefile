@@ -17,7 +17,7 @@ sh:
 	docker exec -it uptime-kuma sh
 
 clean:
-	docker container prune -f
+	docker rm -f uptime-kuma
 
 pull:
 	docker pull louislam/uptime-kuma:2

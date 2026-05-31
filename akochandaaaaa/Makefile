@@ -20,4 +20,4 @@ sh:
 	docker exec -it akochandaaaaa sh
 
 clean:
-	docker container prune -f
+	docker rm -f akochandaaaaa

@@ -20,7 +20,7 @@ restart:
 	docker restart portracker
 
 clean:
-	docker container prune -f
+	docker rm -f portracker
 
 pull:
 	docker pull mostafawahied/portracker:latest

@@ -23,7 +23,7 @@ sh:
 	docker exec -it nginx-ui sh
 
 clean:
-	docker container prune -f
+	docker rm -f nginx-ui
 
 pull:
 	docker pull uozi/nginx-ui:latest

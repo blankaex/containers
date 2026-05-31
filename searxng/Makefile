@@ -19,7 +19,7 @@ sh:
 	docker exec -it searxng sh
 
 clean:
-	docker container prune -f
+	docker rm -f searxng
 
 pull:
 	docker pull searxng/searxng

@@ -60,7 +60,7 @@ restart-client:
 	docker restart szurubooru-client
 
 clean:
-	docker container prune -f
+	docker rm -f szurubooru-database szurubooru-server szurubooru-client
 
 pull:
 	docker pull szurubooru/server
