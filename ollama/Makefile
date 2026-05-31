@@ -15,15 +15,15 @@ restart:
 	docker restart ollama
 
 sh:
-	docker exec -it ollama bash
+	docker exec -it ollama sh
 
 logs:
 	docker logs -f ollama
 
 clean:
-	docker rm -f ollama || true
+	docker rm -f ollama
 
 pull:
 	docker pull ollama/ollama
 
-upgrade: pull clean run
+upgrade: pull stop clean run
