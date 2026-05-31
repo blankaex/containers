@@ -2,6 +2,7 @@ jellyfin/jellyfin*
 libretranslate/libretranslate
 miniserve/miniserve
 nginx-ui/nginx*
+nginx-ui/-var-www-html
 ollama/ollama
 portracker/portracker
 qbittorrent/qBittorrent
