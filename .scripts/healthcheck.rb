@@ -47,9 +47,7 @@ def check_docker(expected_containers)
   output = `docker ps --format "{{.Names}}"`
 
   if !$?.success?
-    log("unable to query docker containers", "fail")
-    puts output
-    exit 1
+    log("unable to query docker containers", "fail", output)
   end
 
   running_containers = output.lines.map(&:strip)
@@ -69,17 +67,13 @@ def check_wireguard(interface)
   output = `wg show #{interface}`
 
   if !$?.success?
-    log("unable to query WireGuard interface #{interface}", "fail")
-    puts output
-    exit 1
+    log("unable to query WireGuard interface #{interface}", "fail", output)
   end
 
   if output.include?("interface: #{interface}")
     log("WireGuard interface #{interface} is active", "pass")
   else
-    log("WireGuard interface #{interface} is NOT active", "fail")
-    puts output
-    exit 1
+    log("WireGuard interface #{interface} is NOT active", "fail", output)
   end
 end
 
@@ -89,17 +83,13 @@ def check_ufw
   output = `ufw status`
 
   if !$?.success?
-    log("unable to query UFW status", "fail")
-    puts output
-    exit 1
+    log("unable to query UFW status", "fail", output)
   end
 
   if output.include?("Status: active")
     log("UFW is active", "pass")
   else
-    log("UFW is NOT active", "fail")
-    puts output
-    exit 1
+    log("UFW is NOT active", "fail", output)
   end
 end
 
@@ -109,17 +99,13 @@ def check_certbot
   output = `certbot renew --dry-run 2>&1`
 
   if !$?.success?
-    log("certbot dry-run renewal failed", "fail")
-    puts output
-    exit 1
+    log("certbot dry-run renewal failed", "fail", output)
   end
 
   if output.include?("all simulated renewals succeeded")
     log("certbot dry-run renewal succeeded", "pass")
   else
-    log("certbot dry-run renewal produced unexpected output", "fail")
-    puts output
-    exit 1
+    log("certbot dry-run renewal produced unexpected output", "fail", output)
   end
 end
 
@@ -129,9 +115,7 @@ def check_disk
   output = `docker exec qbittorrent find /home/blankaex/anime -mindepth 1 -maxdepth 1 | wc -l`
 
   if !$?.success?
-    log("unable to query disk contents", "fail")
-    puts output
-    exit 1
+    log("unable to query disk contents", "fail", output)
   end
 
   count = output.strip.to_i
@@ -143,7 +127,7 @@ def check_disk
   end
 end
 
-def log(message, level)
+def log(message, level, output = nil)
   colors = {
     "info" => 34,
     "pass" => 32,
@@ -151,6 +135,11 @@ def log(message, level)
   }
 
   puts "\e[#{colors[level]}m[#{level.upcase}]\e[0m #{message}"
+
+  if level == "fail" && output
+    puts output
+    exit 1
+  end
 end
 
 main
