@@ -1,0 +1,156 @@
+#!/usr/bin/env ruby
+
+require "socket"
+
+def main
+  hostname = Socket.gethostname
+  log("Starting health checks for #{hostname}", "info")
+
+  case hostname
+    when "orihime"
+      check_docker([
+        "nginx-ui",
+        "syncplay",
+        "uptime-kuma",
+        "portracker"
+      ])
+      check_wireguard("wg0")
+      check_ufw
+      check_certbot
+
+    when "orochi"
+      check_docker([
+        "szurubooru-client",
+        "szurubooru-server",
+        "szurubooru-database",
+        "searxng",
+        "qbittorrent",
+        "portracker",
+        "ollama",
+        "miniserve",
+        "libretranslate",
+        "bentopdf",
+        "jellyfin",
+        "akochandaaaaa",
+        "autotagger"
+      ])
+      check_wireguard("wg0")
+      check_disk
+  end
+
+  log("Health checks completed", "info")
+end
+
+def check_docker(expected_containers)
+  log("Checking docker containers", "info")
+
+  output = `docker ps --format "{{.Names}}"`
+
+  if !$?.success?
+    log("unable to query docker containers", "fail")
+    puts output
+    exit 1
+  end
+
+  running_containers = output.lines.map(&:strip)
+
+  expected_containers.each do |container|
+    if running_containers.include?(container)
+      log("#{container} is running", "pass")
+    else
+      log("#{container} is NOT running", "fail")
+    end
+  end
+end
+
+def check_wireguard(interface)
+  log("Checking WireGuard interface #{interface}", "info")
+
+  output = `wg show #{interface}`
+
+  if !$?.success?
+    log("unable to query WireGuard interface #{interface}", "fail")
+    puts output
+    exit 1
+  end
+
+  if output.include?("interface: #{interface}")
+    log("WireGuard interface #{interface} is active", "pass")
+  else
+    log("WireGuard interface #{interface} is NOT active", "fail")
+    puts output
+    exit 1
+  end
+end
+
+def check_ufw
+  log("Checking UFW status", "info")
+
+  output = `ufw status`
+
+  if !$?.success?
+    log("unable to query UFW status", "fail")
+    puts output
+    exit 1
+  end
+
+  if output.include?("Status: active")
+    log("UFW is active", "pass")
+  else
+    log("UFW is NOT active", "fail")
+    puts output
+    exit 1
+  end
+end
+
+def check_certbot
+  log("Checking certbot renewal", "info")
+
+  output = `certbot renew --dry-run 2>&1`
+
+  if !$?.success?
+    log("certbot dry-run renewal failed", "fail")
+    puts output
+    exit 1
+  end
+
+  if output.include?("all simulated renewals succeeded")
+    log("certbot dry-run renewal succeeded", "pass")
+  else
+    log("certbot dry-run renewal produced unexpected output", "fail")
+    puts output
+    exit 1
+  end
+end
+
+def check_disk
+  log("Checking disk contents", "info")
+
+  output = `docker exec qbittorrent find /home/blankaex/anime -mindepth 1 -maxdepth 1 | wc -l`
+
+  if !$?.success?
+    log("unable to query disk contents", "fail")
+    puts output
+    exit 1
+  end
+
+  count = output.strip.to_i
+
+  if count >= 10
+    log("disk contains #{count} entries", "pass")
+  else
+    log("disk contains only #{count} entries", "fail")
+  end
+end
+
+def log(message, level)
+  colors = {
+    "info" => 34,
+    "pass" => 32,
+    "fail" => 31
+  }
+
+  puts "\e[#{colors[level]}m[#{level.upcase}]\e[0m #{message}"
+end
+
+main
