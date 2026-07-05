@@ -26,7 +26,6 @@ def main
         "searxng",
         "qbittorrent",
         "portracker",
-        "ollama",
         "miniserve",
         "libretranslate",
         "bentopdf",
