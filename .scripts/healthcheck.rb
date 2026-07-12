@@ -28,6 +28,7 @@ def main
         "portracker",
         "miniserve",
         "libretranslate",
+        "excalidraw",
         "bentopdf",
         "jellyfin",
         "akochandaaaaa",
