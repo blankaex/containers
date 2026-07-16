@@ -4,7 +4,7 @@ run:
 		--volume ${PWD}/nginx:/etc/nginx \
 		--volume ${PWD}/nginx-ui:/etc/nginx-ui \
 		--volume ${PWD}/nginx-logs:/var/log/nginx \
-		--volume ${PWD}/-var-www-html:/var/www/html \
+		--volume ${PWD}/var/www:/var/www \
 		--volume /var/run/docker.sock:/var/run/docker.sock \
 		--volume /etc/letsencrypt:/etc/letsencrypt \
 		--restart unless-stopped \
