@@ -1,23 +1,26 @@
+CONTAINER := akochandaaaaa
+
 build: Dockerfile
 	docker build \
-		--tag akochandaaaaa .
+		--tag $(CONTAINER) .
+
+rebuild: Dockerfile
+	docker build \
+		--no-cache \
+		--tag $(CONTAINER) .
 
 run:
 	docker run \
-		--publish ${AKOCHAN_PORT}:80 \
+		--publish $(AKOCHAN_PORT):80 \
 		--restart unless-stopped \
-		--name akochandaaaaa \
+		--name $(CONTAINER) \
 		--detach \
-		akochandaaaaa
+		$(CONTAINER)
 
 stop:
-	docker stop akochandaaaaa
-
-restart:
-	docker restart akochandaaaaa
-
-sh:
-	docker exec -it akochandaaaaa sh
+	docker stop $(CONTAINER)
 
 clean:
-	docker rm -f akochandaaaaa
+	docker rm -f $(CONTAINER)
+
+upgrade: rebuild stop clean run

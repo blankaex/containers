@@ -1,27 +1,22 @@
+CONTAINER := searxng
+IMAGE := searxng/searxng
+
 run:
 	docker run \
-		--publish ${SEARXNG_PORT}:8080 \
-		--volume ${PWD}/searxng:/etc/searxng \
-		--env "BASE_URL=${SEARXNG_URL}" \
-		--env "INSTANCE_NAME=searxng" \
+		--publish $(SEARXNG_PORT):8080 \
+		--volume $(PWD)/searxng:/etc/searxng \
 		--restart unless-stopped \
-		--name searxng \
+		--name $(CONTAINER) \
 		--detach \
-		searxng/searxng
+		$(IMAGE)
 
 stop:
-	docker stop searxng
-
-restart:
-	docker restart searxng
-
-sh:
-	docker exec -it searxng sh
+	docker stop $(CONTAINER)
 
 clean:
-	docker rm -f searxng
+	docker rm -f $(CONTAINER)
 
 pull:
-	docker pull searxng/searxng
+	docker pull $(IMAGE)
 
 upgrade: pull stop clean run

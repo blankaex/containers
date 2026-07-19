@@ -1,19 +1,21 @@
+CONTAINER := autotagger
+IMAGE := ghcr.io/danbooru/autotagger
+
 run:
 	docker run \
-		--publish ${AUTOTAGGER_PORT}:5000 \
+		--publish $(AUTOTAGGER_PORT):5000 \
 		--restart unless-stopped \
-		--name autotagger \
+		--name $(CONTAINER) \
 		--detach \
-		ghcr.io/danbooru/autotagger
+		$(IMAGE)
 
 stop:
-	docker stop autotagger
-
-restart:
-	docker restart autotagger
-
-sh:
-	docker exec -it autotagger sh
+	docker stop $(CONTAINER)
 
 clean:
-	docker rm -f autotagger
+	docker rm -f $(CONTAINER)
+
+pull:
+	docker pull $(IMAGE)
+
+upgrade: pull stop clean run

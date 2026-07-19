@@ -11,5 +11,4 @@ ENV MINISERVE_PORT=${MINISERVE_PORT}
 ENV MINISERVE_AUTH_FILE=/etc/miniserve/auth
 ENV MINISERVE_COLOR_SCHEME=archlinux
 
-CMD miniserve \
-        /var/local/miniserve
+CMD ["miniserve", "/var/local/miniserve"]

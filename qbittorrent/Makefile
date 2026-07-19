@@ -1,40 +1,40 @@
+CONTAINER := qbittorrent
+IMAGE := qbittorrent
+
 build: Dockerfile
 	docker build \
-		--build-arg QBITTORRENT_PORT=${QBITTORRENT_PORT} \
-		--tag qbittorrent .
+		--build-arg UID=$$(id -u) \
+		--build-arg GID=$$(id -g) \
+		--build-arg USER=$$(whoami) \
+		--build-arg QBITTORRENT_PORT=$(QBITTORRENT_PORT) \
+		--tag $(CONTAINER) .
 
 rebuild: Dockerfile
 	docker pull archlinux
 	docker build \
-		--build-arg QBITTORRENT_PORT=${QBITTORRENT_PORT} \
+		--build-arg UID=$$(id -u) \
+		--build-arg GID=$$(id -g) \
+		--build-arg USER=$$(whoami) \
+		--build-arg QBITTORRENT_PORT=$(QBITTORRENT_PORT) \
 		--no-cache \
-		--tag qbittorrent .
+		--tag $(CONTAINER) .
 
 run:
 	docker run \
-		--user $(id -u):$(id -g) \
-		--publish ${QBITTORRENT_PORT}:${QBITTORRENT_PORT} \
-		--volume ${PWD}/qBittorrent:/config/qBittorrent \
-		--volume /home/blankaex/storage/torrents:/home/blankaex/storage/torrents \
-		--volume /home/blankaex/anime:/home/blankaex/anime \
+		--user $$(id -u):$$(id -g) \
+		--publish $(QBITTORRENT_PORT):$(QBITTORRENT_PORT) \
+		--volume $(PWD)/qBittorrent:/config/qBittorrent \
+		--volume $(HOME)/storage/torrents:$(HOME)/storage/torrents \
+		--volume $(HOME)/anime:$(HOME)/anime \
 		--restart unless-stopped \
-		--name qbittorrent \
+		--name $(CONTAINER) \
 		--detach \
-		qbittorrent
+		$(IMAGE)
 
 stop:
-	docker stop qbittorrent
-
-restart:
-	docker restart qbittorrent
-
-sh:
-	docker exec -it qbittorrent sh
+	docker stop $(CONTAINER)
 
 clean:
-	docker rm -f qbittorrent
-
-check:
-	docker exec qbittorrent ls /home/blankaex/anime
+	docker rm -f $(CONTAINER)
 
 upgrade: rebuild stop clean run

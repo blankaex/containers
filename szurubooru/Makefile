@@ -1,69 +1,59 @@
-run: run-database run-server run-client
-
-stop: stop-database stop-server stop-client
-
-restart: restart-database restart-server restart-client
+CONTAINER_DB := szurubooru-database
+CONTAINER_SERVER := szurubooru-server
+CONTAINER_CLIENT := szurubooru-client
+IMAGE_DB := postgres:11-alpine
+IMAGE_SERVER := szurubooru/server
+IMAGE_CLIENT := szurubooru/client
+NETWORK := szurubooru
 
 run-database:
 	docker run \
-		--env POSTGRES_USER=${SZURUBOORU_USER} \
-		--env POSTGRES_PASSWORD=${SZURUBOORU_PASS} \
-		--volume ${PWD}/sql:/var/lib/postgresql/data \
+		--env POSTGRES_USER=$(SZURUBOORU_USER) \
+		--env POSTGRES_PASSWORD=$(SZURUBOORU_PASS) \
+		--volume $(PWD)/sql:/var/lib/postgresql/data \
 		--restart unless-stopped \
-		--network szurubooru \
-		--name szurubooru-database \
+		--network $(NETWORK) \
+		--name $(CONTAINER_DB) \
 		--detach \
-		postgres:11-alpine
+		$(IMAGE_DB)
 
 run-server:
 	docker run \
-		--env POSTGRES_HOST=szurubooru-database \
-		--env POSTGRES_USER=${SZURUBOORU_USER} \
-		--env POSTGRES_PASSWORD=${SZURUBOORU_PASS} \
+		--env POSTGRES_HOST=$(CONTAINER_DB) \
+		--env POSTGRES_USER=$(SZURUBOORU_USER) \
+		--env POSTGRES_PASSWORD=$(SZURUBOORU_PASS) \
 		--env THREADS=4 \
-	    --volume ${PWD}/data:/data \
-	    --volume ${PWD}/szurubooru/server/config.yaml:/opt/app/config.yaml \
+	    --volume $(PWD)/data:/data \
+	    --volume $(PWD)/szurubooru/server/config.yaml:/opt/app/config.yaml \
 		--restart unless-stopped \
-		--network szurubooru \
-		--name szurubooru-server \
+		--network $(NETWORK) \
+		--name $(CONTAINER_SERVER) \
 		--detach \
-		szurubooru/server
+		$(IMAGE_SERVER)
 
 run-client:
 	docker run \
-		--env BACKEND_HOST=szurubooru-server \
+		--env BACKEND_HOST=$(CONTAINER_SERVER) \
 		--env BASE_URL=/ \
-		--publish ${SZURUBOORU_PORT}:80 \
-		--volume ${PWD}/data:/data:ro \
+		--publish $(SZURUBOORU_PORT):80 \
+		--volume $(PWD)/data:/data:ro \
 		--restart unless-stopped \
-		--network szurubooru \
-		--name szurubooru-client \
+		--network $(NETWORK) \
+		--name $(CONTAINER_CLIENT) \
 		--detach \
-		szurubooru/client
+		$(IMAGE_CLIENT)
 
-stop-database:
-	docker stop szurubooru-database
+run: run-database run-server run-client
 
-stop-server:
-	docker stop szurubooru-server
-
-stop-client:
-	docker stop szurubooru-client
-
-restart-database:
-	docker restart szurubooru-database
-
-restart-server:
-	docker restart szurubooru-server
-
-restart-client:
-	docker restart szurubooru-client
+stop:
+	docker stop $(CONTAINER_DB) $(CONTAINER_SERVER) $(CONTAINER_CLIENT)
 
 clean:
-	docker rm -f szurubooru-database szurubooru-server szurubooru-client
+	docker rm -f $(CONTAINER_DB) $(CONTAINER_SERVER) $(CONTAINER_CLIENT)
 
 pull:
-	docker pull szurubooru/server
-	docker pull szurubooru/client
+	docker pull $(IMAGE_DB)
+	docker pull $(IMAGE_SERVER)
+	docker pull $(IMAGE_CLIENT)
 
 upgrade: pull stop clean run

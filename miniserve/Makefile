@@ -1,35 +1,32 @@
+CONTAINER := miniserve
+IMAGE := miniserve
+
 build: Dockerfile
 	docker build \
-		--build-arg MINISERVE_PORT=${MINISERVE_PORT} \
-		--tag miniserve .
+		--build-arg MINISERVE_PORT=$(MINISERVE_PORT) \
+		--tag $(CONTAINER) .
 
 rebuild: Dockerfile
 	docker pull archlinux
 	docker build \
-		--build-arg MINISERVE_PORT=${MINISERVE_PORT} \
+		--build-arg MINISERVE_PORT=$(MINISERVE_PORT) \
 		--no-cache \
-		--tag miniserve .
+		--tag $(CONTAINER) .
 
 run:
 	docker run \
-		--publish ${MINISERVE_PORT}:${MINISERVE_PORT} \
-		--volume ${PWD}/miniserve:/etc/miniserve \
-		--volume /home/blankaex/miniserve:/var/local/miniserve \
+		--publish $(MINISERVE_PORT):$(MINISERVE_PORT) \
+		--volume $(PWD)/miniserve:/etc/miniserve \
+		--volume $(HOME)/miniserve:/var/local/miniserve \
 		--restart unless-stopped \
-		--name miniserve \
+		--name $(CONTAINER) \
 		--detach \
-		miniserve
+		$(IMAGE)
 
 stop:
-	docker stop miniserve
-
-restart:
-	docker restart miniserve
-
-sh:
-	docker exec -it miniserve sh
+	docker stop $(CONTAINER)
 
 clean:
-	docker rm -f miniserve
+	docker rm -f $(CONTAINER)
 
 upgrade: rebuild stop clean run

@@ -1,27 +1,23 @@
+CONTAINER := libretranslate
+IMAGE := libretranslate/libretranslate
+
 run:
 	docker run \
-		--user $(id -u):$(id -g) \
-		--publish ${LIBRETRANSLATE_PORT}:5000 \
-		--volume ${PWD}/libretranslate/lt-db:/app/db \
-		--volume ${PWD}/libretranslate/lt-local:/home/libretranslate/.local \
+		--publish $(LIBRETRANSLATE_PORT):5000 \
+		--volume $(PWD)/libretranslate/lt-db:/app/db \
+		--volume $(PWD)/libretranslate/lt-local:/home/libretranslate/.local \
 		--restart unless-stopped \
-		--name libretranslate \
+		--name $(CONTAINER) \
 		--detach \
-		libretranslate/libretranslate --load-only en,ja,zt,zh
+		$(IMAGE) --load-only en,ja,zt,zh
 
 stop:
-	docker stop libretranslate 
-
-restart:
-	docker restart libretranslate
-
-sh:
-	docker exec -it libretranslate sh
+	docker stop $(CONTAINER) 
 
 clean:
-	docker rm -f libretranslate
+	docker rm -f $(CONTAINER)
 
 pull:
-	docker pull libretranslate/libretranslate
+	docker pull $(IMAGE)
 
 upgrade: pull stop clean run

@@ -1,24 +1,21 @@
+CONTAINER := bentopdf
+IMAGE := bentopdfteam/bentopdf:latest
+
 run:
 	docker run \
-		--publish ${BENTOPDF_PORT}:8080 \
+		--publish $(BENTOPDF_PORT):8080 \
 		--restart unless-stopped \
-		--name bentopdf \
+		--name $(CONTAINER) \
 		--detach \
-		bentopdfteam/bentopdf:latest
+		$(IMAGE)
 
 stop:
-	docker stop bentopdf 
-
-restart:
-	docker restart bentopdf
-
-sh:
-	docker exec -it bentopdf sh
+	docker stop $(CONTAINER) 
 
 clean:
-	docker rm -f bentopdf
+	docker rm -f $(CONTAINER)
 
 pull:
-	docker pull bentopdfteam/bentopdf:latest
+	docker pull $(IMAGE)
 
 upgrade: pull stop clean run

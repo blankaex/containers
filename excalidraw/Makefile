@@ -1,24 +1,21 @@
+CONTAINER := exaclidraw
+IMAGE := excalidraw/excalidraw:latest
+
 run:
 	docker run \
-		--publish ${EXCALIDRAW_PORT}:80 \
+		--publish $(EXCALIDRAW_PORT):80 \
 		--restart unless-stopped \
-		--name excalidraw \
+		--name $(CONTAINER) \
 		--detach \
-		excalidraw/excalidraw:latest
+		$(IMAGE)
 
 stop:
-	docker stop excalidraw 
-
-restart:
-	docker restart excalidraw
-
-sh:
-	docker exec -it excalidraw sh
+	docker stop $(CONTAINER) 
 
 clean:
-	docker rm -f excalidraw
+	docker rm -f $(CONTAINER)
 
 pull:
-	docker pull excalidrawteam/excalidraw:latest
+	docker pull $(IMAGE)
 
 upgrade: pull stop clean run

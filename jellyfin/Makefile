@@ -1,30 +1,26 @@
+CONTAINER := jellyfin
+IMAGE := jellyfin/jellyfin
+
 run:
 	docker run \
-		--user $(id -u):$(id -g) \
-		--publish ${JELLYFIN_TCP}:8096/tcp \
-		--publish ${JELLYFIN_UDP}:7359/udp \
-		--volume ${PWD}/jellyfin-config:/config \
-		--volume ${PWD}/jellyfin-cache:/cache \
-		--mount type=bind,source=${HOME}/anime,target=/anime \
-		--mount type=bind,source=${HOME}/storage/videos,target=/videos \
+		--publish $(JELLYFIN_TCP):8096/tcp \
+		--publish $(JELLYFIN_UDP):7359/udp \
+		--volume $(PWD)/jellyfin-config:/config \
+		--volume $(PWD)/jellyfin-cache:/cache \
+		--mount type=bind,source=$(HOME)/anime,target=/anime \
+		--mount type=bind,source=$(HOME)/storage/videos,target=/videos \
 		--restart unless-stopped \
-		--name jellyfin \
+		--name $(CONTAINER) \
 		--detach \
-		jellyfin/jellyfin
+		$(IMAGE)
 
 stop:
-	docker stop jellyfin 
-
-restart:
-	docker restart jellyfin
-
-sh:
-	docker exec -it jellyfin sh
+	docker stop $(CONTAINER) 
 
 clean:
-	docker rm -f jellyfin
+	docker rm -f $(CONTAINER)
 
 pull:
-	docker pull jellyfin/jellyfin
+	docker pull $(IMAGE)
 
 upgrade: pull stop clean run
