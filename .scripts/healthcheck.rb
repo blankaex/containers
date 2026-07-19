@@ -26,6 +26,7 @@ def main
         "searxng",
         "qbittorrent",
         "portracker",
+        "navidrome",
         "miniserve",
         "libretranslate",
         "excalidraw",
