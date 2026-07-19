@@ -1,4 +1,5 @@
 CONTAINER := akochandaaaaa
+IMAGE := akochandaaaaa
 
 build: Dockerfile
 	docker build \
@@ -15,7 +16,7 @@ run:
 		--restart unless-stopped \
 		--name $(CONTAINER) \
 		--detach \
-		$(CONTAINER)
+		$(IMAGE)
 
 stop:
 	docker stop $(CONTAINER)
