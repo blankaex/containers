@@ -1,25 +1,22 @@
+CONTAINER := uptime-kuma
+IMAGE := louislam/uptime-kuma:2
+
 run: 
 	docker run \
-		--publish ${UPTIME_KUMA_PORT}:3001 \
-		--volume ${PWD}/uptime-kuma:/app/data \
-		--name uptime-kuma \
+		--publish $(UPTIME_KUMA_PORT):3001 \
+		--volume $(PWD)/uptime-kuma:/app/data \
+		--name $(CONTAINER) \
 		--restart unless-stopped \
 		--detach \
-		louislam/uptime-kuma:2
+		$(IMAGE)
 
 stop:
-	docker stop uptime-kuma
-
-restart:
-	docker restart uptime-kuma
-
-sh:
-	docker exec -it uptime-kuma sh
+	docker stop $(CONTAINER)
 
 clean:
-	docker rm -f uptime-kuma
+	docker rm -f $(CONTAINER)
 
 pull:
-	docker pull louislam/uptime-kuma:2
+	docker pull $(IMAGE)
 
 upgrade: pull stop clean run
