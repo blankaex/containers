@@ -12,6 +12,7 @@ rebuild: Dockerfile
 
 run:
 	docker run \
+		--user 1000:1000 \
 		--publish ${QBITTORRENT_PORT}:${QBITTORRENT_PORT} \
 		--volume ${PWD}/qBittorrent:/config/qBittorrent \
 		--volume /home/blankaex/storage/torrents:/home/blankaex/storage/torrents \
