@@ -17,7 +17,7 @@ run:
 	docker run \
 		--publish $(MINISERVE_PORT):$(MINISERVE_PORT) \
 		--volume $(PWD)/miniserve:/etc/miniserve \
-		--volume $(HOME)/miniserve:/var/local/miniserve \
+		--volume /mnt/cache/miniserve:/var/local/miniserve \
 		--restart unless-stopped \
 		--name $(CONTAINER) \
 		--detach \

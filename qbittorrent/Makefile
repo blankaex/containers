@@ -24,8 +24,8 @@ run:
 		--user $$(id -u):$$(id -g) \
 		--publish $(QBITTORRENT_PORT):$(QBITTORRENT_PORT) \
 		--volume $(PWD)/qBittorrent:/config/qBittorrent \
-		--volume $(HOME)/storage/torrents:$(HOME)/storage/torrents \
-		--volume $(HOME)/anime:$(HOME)/anime \
+		--volume /mnt/cache/torrents:/mnt/cache/torrents \
+		--volume /mnt/storage/anime:/mnt/storage/anime \
 		--restart unless-stopped \
 		--name $(CONTAINER) \
 		--detach \

@@ -7,8 +7,10 @@ run:
 		--publish $(JELLYFIN_UDP):7359/udp \
 		--volume $(PWD)/jellyfin-config:/config \
 		--volume $(PWD)/jellyfin-cache:/cache \
-		--mount type=bind,source=$(HOME)/anime,target=/anime \
-		--mount type=bind,source=$(HOME)/storage/videos,target=/videos \
+		--mount type=bind,source=/mnt/storage/anime,target=/anime \
+		--mount type=bind,source=/mnt/storage/dramas,target=/dramas \
+		--mount type=bind,source=/mnt/storage/movies,target=/movies \
+		--mount type=bind,source=/mnt/storage/tv,target=/tv \
 		--restart unless-stopped \
 		--name $(CONTAINER) \
 		--detach \

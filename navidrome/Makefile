@@ -6,7 +6,7 @@ run:
 	  	--user $$(id -u):$$(id -g) \
 		--publish $(NAVIDROME_PORT):4533 \
 		--volume $(PWD)/navidrome:/data \
-		--volume $(HOME)/storage/music:/music:ro \
+		--volume /mnt/storage/music:/music:ro \
 		--restart unless-stopped \
 		--name $(CONTAINER) \
 		--detach \
@@ -14,6 +14,9 @@ run:
 
 stop:
 	docker stop $(CONTAINER)
+
+clean:
+	docker rm -f $(CONTAINER)
 
 pull:
 	docker pull $(IMAGE)

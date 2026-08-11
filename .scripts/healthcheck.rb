@@ -113,7 +113,7 @@ end
 def check_disk
   log("Checking disk contents", "info")
 
-  output = `docker exec qbittorrent find /home/blankaex/anime -mindepth 1 -maxdepth 1 | wc -l`
+  output = `docker exec qbittorrent find /mnt/storage/anime -mindepth 1 -maxdepth 1 | wc -l`
 
   if !$?.success?
     log("unable to query disk contents", "fail", output)
@@ -121,7 +121,7 @@ def check_disk
 
   count = output.strip.to_i
 
-  if count >= 10
+  if count >= 500
     log("disk contains #{count} entries", "pass")
   else
     log("disk contains only #{count} entries", "fail")
