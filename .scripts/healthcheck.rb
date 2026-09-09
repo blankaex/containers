@@ -20,6 +20,7 @@ def main
 
     when "orochi"
       check_docker([
+        "voicevox",
         "szurubooru-client",
         "szurubooru-server",
         "szurubooru-database",
