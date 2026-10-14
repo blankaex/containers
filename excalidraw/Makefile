@@ -1,4 +1,4 @@
-CONTAINER := exaclidraw
+CONTAINER := excalidraw
 IMAGE := excalidraw/excalidraw:latest
 
 run:
