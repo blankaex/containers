@@ -9,6 +9,7 @@ def main
   case hostname
     when "orihime"
       check_docker([
+        "blocky",
         "nginx-ui",
         "syncplay",
         "uptime-kuma",
