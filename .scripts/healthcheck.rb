@@ -37,6 +37,7 @@ def main
         "jitsi-jvb",
         "jitsi-jicofo",
         "jellyfin",
+        "gluetun",
         "akochandaaaaa",
         "autotagger"
       ])

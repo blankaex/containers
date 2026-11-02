@@ -22,7 +22,7 @@ rebuild: Dockerfile
 run:
 	docker run \
 		--user $$(id -u):$$(id -g) \
-		--publish $(QBITTORRENT_PORT):$(QBITTORRENT_PORT) \
+		--network container:gluetun \
 		--volume $(PWD)/qBittorrent:/config/qBittorrent \
 		--volume /mnt/cache/torrents:/mnt/cache/torrents \
 		--volume /mnt/storage/anime:/mnt/storage/anime \
