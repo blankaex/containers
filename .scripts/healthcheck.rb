@@ -42,6 +42,7 @@ def main
         "akochandaaaaa",
         "autotagger"
       ])
+      check_vpn
       check_wireguard("wg0")
       check_disk
   end
@@ -67,6 +68,26 @@ def check_docker(expected_containers)
       log("#{container} is NOT running", "fail")
     end
   end
+end
+
+def check_vpn
+  log("Checking VPN connection", "info")
+
+  status = `docker exec gluetun wget -qO- http://127.0.0.1:8000/v1/vpn/status 2>&1`
+
+  unless $?.success? && status.include?('"status":"running"')
+    log("Gluetun VPN is NOT connected", "fail", status)
+  end
+
+  log("Gluetun VPN is connected", "pass")
+
+  ip = `docker exec gluetun wget -qO- https://api.ipify.org 2>&1`.strip
+
+  unless $?.success? && !ip.empty?
+    log("unable to determine VPN external IP", "fail", ip)
+  end
+
+  log("VPN external IP: #{ip}", "pass")
 end
 
 def check_wireguard(interface)
