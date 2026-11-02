@@ -32,6 +32,10 @@ def main
         "libretranslate",
         "excalidraw",
         "bentopdf",
+        "jitsi-web",
+        "jitsi-prosody",
+        "jitsi-jvb",
+        "jitsi-jicofo",
         "jellyfin",
         "akochandaaaaa",
         "autotagger"
