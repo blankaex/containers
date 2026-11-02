@@ -88,6 +88,14 @@ def check_vpn
   end
 
   log("VPN external IP: #{ip}", "pass")
+
+  ip = `docker exec qbittorrent curl -s https://api.ipify.org 2>&1`.strip
+
+  unless $?.success? && !ip.empty?
+    log("unable to determine container VPN IP", "fail", ip)
+  end
+
+  log("Container VPN IP: #{ip}", "pass")
 end
 
 def check_wireguard(interface)
