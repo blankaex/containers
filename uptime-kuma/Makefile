@@ -5,6 +5,7 @@ run:
 	docker run \
 		--publish $(UPTIME_KUMA_PORT):3001 \
 		--volume $(PWD)/uptime-kuma:/app/data \
+		--network monitor \
 		--name $(CONTAINER) \
 		--restart unless-stopped \
 		--detach \

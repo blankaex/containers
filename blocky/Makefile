@@ -8,6 +8,7 @@ run:
 		--publish $(BLOCKY_ADDRESS):53/udp \
 		--volume $(PWD)/blocky/config.yml:/app/config.yml:ro \
 		--restart unless-stopped \
+		--network monitor \
 		--name $(CONTAINER) \
 		--detach \
 		$(IMAGE)
